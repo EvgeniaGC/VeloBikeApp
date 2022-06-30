@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+</head>
+<body>
+<h3 th:text="'Hello, ' + (${user.name}==null? 'Guest':(*{user.name}))"></h3>
+
+<h2>About me</h2>
+<!--
+<p> <a th:href="@{/editAboutMe/{user}(userNew=${user})}">Edit</a></p>
+-->
+<p> <a th:href="@{/editAboutMe/{email}(email=${user.email})}">Edit</a></p>
+
+
+<h2>My Routes</h2>
+<p> <a href="/addNewRoute">Add new route</a></p>
+
+<h2>Statistics</h2>
+<table>
+    <tr>
+        <th>Month</th>
+        <th>**June</th>
+        <th></th>
+    </tr>
+    <tr>
+        <th>Distance</th>
+        <th>**36</th>
+        <th>**km</th>
+    </tr>
+    <tr>
+        <th>Kcal</th>
+        <th>**234</th>
+        <th>**kcal</th>
+    </tr>
+    <tr>
+        <th>Saved fuel</th>
+        <th>**2.6</th>
+        <th>**litres</th>
+    </tr>
+</table>
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit information about user</title>
+</head>
+<body>
+
+<!--
+<h2>Edit personal information:</h2>
+<p> ID</p>
+<p>Email</p>
+<p>Name</p>
+<p>Telephone number</p>
+<p>Country</p>
+<p>Male</p>
+<p>Age</p>
+<p>Level of activity</p>
+<p>Weight</p>
+<p>Height</p>
+<p>IMT</p>
+-->
+
+<h2>Edit personal information:</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>**5645455434</th>
+    </tr>
+</table>
+<!--
+<form action="#" th:action="@{/editMe}" th:object="${user}" method="post">
+-->
+<form action="#" th:object="${user}" >
+    <div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" required placeholder="*{email}">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div>
+            <label for="name">Name</label>
+            <input type="name" th:field="*{name}" id="name" placeholder="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div>
+            <label for="telephoneNumber">Telephone Number</label>
+            <input type="telephoneNumber" th:field="*{telephoneNumber}" id="telephoneNumber" required placeholder="*{telephoneNumber}">
+            <span th:if="${#fields.hasErrors('telephoneNumber')}" th:errors="*{telephoneNumber}"></span>
+        </div>
+        <div>
+            <label for="country">Country</label>
+            <input type="country" th:field="*{country}" id="country" required placeholder="*{country}">
+            <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+        </div>
+        <div>
+            <label for="male">Male</label>
+            <input type="male" th:field="*{male}" id="male" placeholder="*{male}">
+            <span th:if="${#fields.hasErrors('male')}" th:errors="*{male}"></span>
+        </div>
+        <div>
+            <label for="levelOfActivity">Level of activity</label>
+            <input type="levelOfActivity" th:field="*{levelOfActivity}" id="levelOfActivity" placeholder="*{levelOfActivity}">
+            <span th:if="${#fields.hasErrors('levelOfActivity')}" th:errors="*{levelOfActivity}"></span>
+        </div>
+        <div>
+            <label for="weight">Weight</label>
+            <input type="weight" th:field="*{weight}" id="weight" placeholder="*{weight}">
+            <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></span>
+        </div>
+        <div>
+            <label for="height">Height</label>
+            <input type="height" th:field="*{height}" id="height" placeholder="*{height}">
+            <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
+        </div>
+        <table>
+            <tr>
+                <th>IMT</th>
+                <th>**21</th>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <div>
+            <input type="submit" value="Save">
+        </div>
+    </div>
+</form>
+</body>
+</html>

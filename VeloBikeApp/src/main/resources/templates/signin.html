@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>Sign In</title>
+</head>
+<body>
+<h1>Please, fill in all fields:</h1>
+
+<form action="#" th:action="@{/signin}" th:object="${user}" method="post">
+    <div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}"id="email" required placeholder="Email">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div>
+            <label for="pass">Pass</label>
+            <input type="password" th:field="*{pass}" id="pass" required>
+            <span th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></span>
+        </div>
+        <div>
+            <label for="repeatedPass">Confirm password</label>
+            <input type="password" th:field="*{repeatedPass}" id="repeatedPass" required>
+            <span th:if="${#fields.hasErrors('repeatedPass')}" th:errors="*{repeatedPass}"></span>
+        </div>
+        <div>
+            <label for="keyWord">Keyword</label>
+            <input type="text" th:field="*{keyWord}" id="keyWord" required placeholder="keyword">
+            <span th:if="${#fields.hasErrors('keyWord')}" th:errors="*{keyWord}"></span>
+        </div>
+        <div>
+            <label for="telephoneNumber">Telephone number</label>
+            <input type="tel" th:field="*{telephoneNumber}" id="telephoneNumber" required placeholder="+x-(xx)-xx-xx-xxx">
+            <span th:if="${#fields.hasErrors('telephoneNumber')}" th:errors="*{telephoneNumber}"></span>
+        </div>
+        <div>
+            <label for="country">Country</label>
+            <input type="text" th:field="*{country}" id="country" required placeholder="Belarus">
+            <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <input type="submit" value="Sign In">
+        </div>
+    </div>
+</form>
+
+<p> <a href="/index">Back</a></p>
+
+</body>
+</html>
