@@ -22,31 +22,18 @@
 -->
 
 <h2>Edit personal information:</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>**5645455434</th>
-    </tr>
-</table>
-<!--
+
 <form action="#" th:action="@{/editMe}" th:object="${user}" method="post">
--->
-<form action="#" th:object="${user}" >
     <div>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" th:field="*{email}" id="email" required placeholder="*{email}">
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-        </div>
         <div>
             <label for="name">Name</label>
             <input type="name" th:field="*{name}" id="name" placeholder="*{name}">
             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
         <div>
-            <label for="telephoneNumber">Telephone Number</label>
-            <input type="telephoneNumber" th:field="*{telephoneNumber}" id="telephoneNumber" required placeholder="*{telephoneNumber}">
-            <span th:if="${#fields.hasErrors('telephoneNumber')}" th:errors="*{telephoneNumber}"></span>
+            <label for="age">Age</label>
+                <input type="age" th:field="*{age}" id="age" placeholder="*{age}">
+                <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
         </div>
         <div>
             <label for="country">Country</label>
@@ -73,12 +60,6 @@
             <input type="height" th:field="*{height}" id="height" placeholder="*{height}">
             <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
         </div>
-        <table>
-            <tr>
-                <th>IMT</th>
-                <th>**21</th>
-            </tr>
-        </table>
     </div>
     <div>
         <div>
@@ -86,5 +67,6 @@
         </div>
     </div>
 </form>
+<h2 th:text="*{message}">Error!</h2>
 </body>
 </html>

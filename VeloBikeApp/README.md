@@ -1,10 +1,15 @@
 
 ## Questions:
 
-- how to post error of wrong email or password on the same page
-- auto change of field `imt` if your enter weight and height on this page
-- 
-- 
+- ### edit `User` (fill all fields: `name`, `age`, `male`, ... !!!
+- send `user (email, name, age, ...)` to page "editMe.html" 
+and show these data in input form.
+- auto change of field `imt` if your enter weight 
+and height on this page.
+- `editMe.html` don't update information about user, why ???
+(It's create new user with new `ID` 
+or delete all fields (ever password) except email)
+- recalculation of the index `imt` just when filling out the form
 - 
 
 

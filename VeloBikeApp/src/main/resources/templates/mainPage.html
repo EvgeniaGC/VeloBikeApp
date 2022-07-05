@@ -5,19 +5,52 @@
     <title>Main Page</title>
 </head>
 <body>
-<h3 th:text="'Hello, ' + (${user.name}==null? 'Guest':(*{user.name}))"></h3>
+<h2 th:text="'Hello, ' + (${user.name}==null? 'Guest':(*{user.name}))"></h2>
+<p>_____________________________________________________________________</p>
 
-<h2>About me</h2>
-<!--
-<p> <a th:href="@{/editAboutMe/{user}(userNew=${user})}">Edit</a></p>
--->
-<p> <a th:href="@{/editAboutMe/{email}(email=${user.email})}">Edit</a></p>
+<h3><u>About me</u></h3>
+<p><a th:href="@{/editAboutMe/{email}(email=${user.email})}">Edit</a></p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th th:text="*{user.name}"></th>
+    </tr>
+    <tr>
+        <th>Age</th>
+        <th th:text="*{user.age}"></th>
+    </tr>
+    <tr>
+        <th>Country</th>
+        <th th:text="*{user.country}"></th>
+    </tr>
+    <tr>
+        <th>Male</th>
+        <th th:text="*{user.male}"></th>
+    </tr>
+    <tr>
+        <th>Level of activity</th>
+        <th th:text="*{user.levelOfActivity}"></th>
+    </tr>
+    <tr>
+        <th>Weight</th>
+        <th th:text="*{user.weight}"></th>
+    </tr>
+    <tr>
+        <th>Height</th>
+        <th th:text="*{user.height}"></th>
+    </tr>
+    <tr>
+        <th>IMT</th>
+        <th th:text="*{user.imt}"></th>
+    </tr>
+</table>
+<p>_____________________________________________________________________</p>
 
+<h3><u>My Routes</u></h3>
+<p><a href="/addNewRoute">Add new route</a></p>
+<p>_____________________________________________________________________</p>
 
-<h2>My Routes</h2>
-<p> <a href="/addNewRoute">Add new route</a></p>
-
-<h2>Statistics</h2>
+<h3><u>Statistics</u></h3>
 <table>
     <tr>
         <th>Month</th>
@@ -40,7 +73,10 @@
         <th>**litres</th>
     </tr>
 </table>
+<p>_____________________________________________________________________</p>
+<h3><a th:href="@{/openSettings/{email}(email=${user.email})}">Settings</a></h3>
 
+<h4><a th:href="@{/deleteUser/{id}(id=${user.id})}">Delete my account</a></h4>
 
 </body>
 </html>

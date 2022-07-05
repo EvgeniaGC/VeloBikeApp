@@ -34,11 +34,6 @@
             <input type="tel" th:field="*{telephoneNumber}" id="telephoneNumber" required placeholder="+x-(xx)-xx-xx-xxx">
             <span th:if="${#fields.hasErrors('telephoneNumber')}" th:errors="*{telephoneNumber}"></span>
         </div>
-        <div>
-            <label for="country">Country</label>
-            <input type="text" th:field="*{country}" id="country" required placeholder="Belarus">
-            <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
-        </div>
     </div>
     <div class="row">
         <div>

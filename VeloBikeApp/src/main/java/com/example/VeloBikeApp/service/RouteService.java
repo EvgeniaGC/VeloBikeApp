@@ -8,11 +8,13 @@ import java.util.List;
 @Service
 public interface RouteService {
 
+    Route createRoute(Route route);
+
 //    Route getRouteById(Integer idRoute);
 //
 //    List<Route> getAllRoute();
 //
-//    Route createRoute(Route route);
+
 //
 //    Route updateRoute(Route route);
 //

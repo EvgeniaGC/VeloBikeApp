@@ -85,6 +85,34 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
+    public UserBeanResponse editMe(User userToEdit) {
+        UserBeanResponse response;
+        User userFromDB = repository.findUserByEmail(userToEdit.getEmail()); //byID
+        Integer userId = userFromDB.getId();
+
+        deleteUser(userId);
+
+        userFromDB.setName(userToEdit.getName());
+        userFromDB.setAge(userToEdit.getAge());
+        userFromDB.setCountry(userToEdit.getCountry());
+        userFromDB.setMale(userToEdit.getMale());
+        userFromDB.setLevelOfActivity(userToEdit.getLevelOfActivity());
+        userFromDB.setWeight(userToEdit.getWeight());
+        userFromDB.setHeight(userToEdit.getHeight());
+
+        if (userFromDB.getHeight() != 0 && userFromDB.getWeight() != 0) {
+            double index = userFromDB.getHeight() / userFromDB.getWeight() / userFromDB.getWeight();
+            userFromDB.setImt(index);
+        }
+
+        User editedUser = repository.save(userFromDB);
+
+        response = mapToUserBeanResponseFromUser(editedUser);
+        response.setMessage("You have successfully edit your data");
+        return response;
+    }
+
 
 //    @Override
 //    public User createUser(UserBeanToCreate userToCreate) {
@@ -96,6 +124,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
+        // TODO: ?????????????????
         repository.delete(getUserById(user.getId()));
         return repository.save(user);
     }
@@ -105,6 +134,5 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(id);
         repository.delete(user);
     }
-
 
 }

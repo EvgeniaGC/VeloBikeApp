@@ -65,10 +65,4 @@ public class User {
     @Column(name = "route")
     private List<Route> listOfRout;
 
-
-    // TODO: delete this constructor ???
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
 }

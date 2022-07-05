@@ -60,9 +60,8 @@ public class UserController {
         model.addAttribute("user", service.getUserByEmail(response.getUserToCreate().getEmail()));
         return "mainPage";
     }
-
-
-    //TODO:
+    //TODO: if wrong `login` message open in new window
+    // ____________________________________________________
     // @PostMapping("/login")
     //    public String enterUser(@Valid User enteredUser,
     //                            BindingResult result,
@@ -79,7 +78,6 @@ public class UserController {
 //        }
 //        }
 
-
 //    @GetMapping("/editAboutMe")
 //    public String editAboutUserPage(@Valid User userToEdit, Model model) {
 //        User userByEmail= service.getUserByEmail(userToEdit.getEmail());
@@ -92,7 +90,6 @@ public class UserController {
 //        return "editMe";
 //    }
 
-
     @GetMapping("/editAboutMe/{email}")
     public String editAboutUserPage(@PathVariable String email, Model model) {
         User user = service.getUserByEmail(email);
@@ -100,23 +97,58 @@ public class UserController {
         return "editMe";
     }
 
+    @PostMapping("/editMe")
+    public String enterAboutUser(@Valid User editUser,
+                                 BindingResult result,
+                                 Model model) {
+        UserBeanResponse response = service.editMe(editUser);
+        String message = response.getMessage();
+        if (message != null) {
+            model.addAttribute("message", message);
+            return "editMe";
+        } else {
+            model.addAttribute("message", "Your changes doesn't save!!! Try again.");
+            return "editMe";
+        }
+    }
+
+
+//    UserBeanResponse response = service.logIn(enteredUser);
+//    String message = response.getMessage();
+//        if (message != null) {
+//        model.addAttribute("errorMessage", message);
+//        return "login";
+//    }
+//        model.addAttribute("user", service.getUserByEmail(response.getUserToCreate().getEmail()));
+//        return "mainPage";
+
     @GetMapping("/addNewRoute")
     public String addRoutePage(Route routeToAdd) {
         return "addRoute";
     }
 
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUserPage(@PathVariable Integer id, Model model) {
+        service.deleteUser(id);
+        model.addAttribute("messageDelete", "Your account had been deleted");
+        return "welcome";
+    }
+
+    @GetMapping("/openSettings/{email}")
+    public String openSettingsPage(@PathVariable String email, Model model) {
+        User user = service.getUserByEmail(email);
+        model.addAttribute("user", user);
+        return "settings";
+    }
+
+//    @GetMapping("/openSettings/{email}")
+//    public String openSettingsPage(@PathVariable String email, Model model) {
+//        User user = service.getUserByEmail(email);
+//        model.addAttribute("user", user);
+//        return "settings";
+//    }
 
 //TODO:
-//    @GetMapping("/editAboutMe")
-//    public String editAboutUser(User userToEdit){
-//        return "edit_about_user";
-//    }
-//    @PostMapping("/edit_about_user")
-//    public String enterAboutUser(@Valid User editUser,
-//                                BindingResult result,
-//                                Model model){
-//        return "editMe";
-//    }
 //    @GetMapping("/addNewRoute")
 //    public String addRoute(Route routeToAdd){
 //        return "add_route";
