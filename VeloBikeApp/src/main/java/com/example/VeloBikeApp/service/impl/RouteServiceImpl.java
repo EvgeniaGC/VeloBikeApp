@@ -22,7 +22,7 @@ public class RouteServiceImpl implements RouteService {
         routeToSave.setFinishPoint(route.getFinishPoint());
                 routeToSave.setDistance(route.getDistance());
                 routeToSave.setTimeHour(route.getTimeHour());
-                routeToSave.
+//                routeToSave.
 
         return repository.save(route);
     }
