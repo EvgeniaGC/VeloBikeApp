@@ -1,15 +1,16 @@
 package com.example.VeloBikeApp.service.impl;
 
 import com.example.VeloBikeApp.dto.UserBeanResponse;
+import com.example.VeloBikeApp.mapper.UserMapper;
+import com.example.VeloBikeApp.model.Route;
 import com.example.VeloBikeApp.model.User;
 import com.example.VeloBikeApp.repository.UserRepository;
 import com.example.VeloBikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.VeloBikeApp.mapper.UserMapper.*;
 
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
+//        return repository.findUserByEmail(email)
+//                .orElse(null);
         return repository.findUserByEmail(email);
     }
 
@@ -51,10 +54,10 @@ public class UserServiceImpl implements UserService {
                 userToSave.setEmail(userToCreate.getEmail());
                 userToSave.setPass(userToCreate.getPass());
                 userToSave.setRepeatedPass(userToCreate.getRepeatedPass());
-                userToSave.setKeyWord(userToCreate.getKeyWord());
+                userToSave.setKeyword(userToCreate.getKeyword());
                 userToSave.setTelephoneNumber(userToCreate.getTelephoneNumber());
                 userToSave.setCountry(userToCreate.getCountry());
-
+                userToSave.setWeight(userToCreate.getWeight() == null ? 0 : userToCreate.getWeight());
                 savedUser = repository.save(userToSave);
 
                 response = mapToUserBeanResponseFromUser(savedUser);
@@ -88,11 +91,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBeanResponse editMe(User userToEdit) {
         UserBeanResponse response;
-        User userFromDB = repository.findUserByEmail(userToEdit.getEmail()); //byID
-        Integer userId = userFromDB.getId();
+        User userFromDB = repository.findUserByEmail(userToEdit.getEmail().trim());
 
-        deleteUser(userId);
-
+        userFromDB.setEmail(userToEdit.getEmail());
         userFromDB.setName(userToEdit.getName());
         userFromDB.setAge(userToEdit.getAge());
         userFromDB.setCountry(userToEdit.getCountry());
@@ -100,27 +101,36 @@ public class UserServiceImpl implements UserService {
         userFromDB.setLevelOfActivity(userToEdit.getLevelOfActivity());
         userFromDB.setWeight(userToEdit.getWeight());
         userFromDB.setHeight(userToEdit.getHeight());
-
         if (userFromDB.getHeight() != 0 && userFromDB.getWeight() != 0) {
-            double index = userFromDB.getHeight() / userFromDB.getWeight() / userFromDB.getWeight();
-            userFromDB.setImt(index);
+//            DecimalFormat df = new DecimalFormat("#.##");
+//            time = Double.valueOf(df.format(time));
+            double index = (double) userFromDB.getWeight() / userFromDB.getHeight() / userFromDB.getHeight() * 10000;
+//            double indexR = Double.valueOf(new DecimalFormat("0.00").format(index));
+            userFromDB.setImt(roundDoubleBy2(index));
+        } else {
+            userFromDB.setImt(0.0);
         }
-
-        User editedUser = repository.save(userFromDB);
-
-        response = mapToUserBeanResponseFromUser(editedUser);
+        repository.save(userFromDB);
+        response = mapToUserBeanResponseFromUser(userToEdit);
         response.setMessage("You have successfully edit your data");
         return response;
     }
 
+    @Override
+    public UserBeanResponse editSet(User userToEdit) {
+        UserBeanResponse response;
+        User userFromDB = repository.findUserByEmail(userToEdit.getEmail().trim());
 
-//    @Override
-//    public User createUser(UserBeanToCreate userToCreate) {
-//        User user = new User();
-//
-//
-//        return user;
-//    }
+        userFromDB.setEmail(userToEdit.getEmail());
+        userFromDB.setPass(userToEdit.getPass());
+        userFromDB.setKeyword(userToEdit.getKeyword());
+        userFromDB.setTelephoneNumber(userToEdit.getTelephoneNumber());
+
+        repository.save(userFromDB);
+        response = mapToUserBeanResponseFromUser(userToEdit);
+        response.setMessage("You have successfully edit your settings");
+        return response;
+    }
 
     @Override
     public User updateUser(User user) {
@@ -135,4 +145,29 @@ public class UserServiceImpl implements UserService {
         repository.delete(user);
     }
 
+    @Override
+    public Double findAllDistance(User user) {
+        List<Route> listOfRoute = user.getListOfRout();
+        Double allDistance = 0.0;
+        for (Route route : listOfRoute) {
+            allDistance += route.getDistance();
+        }
+        return allDistance;
+    }
+
+    @Override
+    public Double findAllKcal(User user) {
+        List<Route> listOfRoute = user.getListOfRout();
+        Double kcal = 0.0;
+        for (Route route : listOfRoute) {
+            kcal += route.getKcal();
+        }
+        return kcal;
+    }
+
+    double roundDoubleBy2(Double number) {
+        number *= 100;
+        Double num = Double.valueOf(Math.round(number));
+        return num / 100;
+    }
 }

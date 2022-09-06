@@ -11,11 +11,11 @@
     <div>
         <div>
             <label for="email">Email</label>
-            <input type="email" th:field="*{email}"id="email" required placeholder="Email">
+            <input type="email" th:field="*{email}" id="email" required placeholder="Email">
             <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </div>
         <div>
-            <label for="pass">Pass</label>
+            <label for="pass">Password</label>
             <input type="password" th:field="*{pass}" id="pass" required>
             <span th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></span>
         </div>
@@ -25,9 +25,9 @@
             <span th:if="${#fields.hasErrors('repeatedPass')}" th:errors="*{repeatedPass}"></span>
         </div>
         <div>
-            <label for="keyWord">Keyword</label>
-            <input type="text" th:field="*{keyWord}" id="keyWord" required placeholder="keyword">
-            <span th:if="${#fields.hasErrors('keyWord')}" th:errors="*{keyWord}"></span>
+            <label for="keyword">Keyword</label>
+            <input type="text" th:field="*{keyword}" id="keyword" required placeholder="keyword">
+            <span th:if="${#fields.hasErrors('keyword')}" th:errors="*{keyword}"></span>
         </div>
         <div>
             <label for="telephoneNumber">Telephone number</label>
@@ -42,7 +42,7 @@
     </div>
 </form>
 
-<p> <a href="/index">Back</a></p>
+<p> <a href="/">Back</a></p>
 
 </body>
 </html>

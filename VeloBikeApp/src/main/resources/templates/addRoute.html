@@ -7,9 +7,36 @@
 <body>
 <h2>Add new route</h2>
 
-<p> <a href="https://www.google.by/maps/dir///@53.9077986,27.7051843,11z/data=!4m2!4m1!3e2">Google Map</a> </p>
+<form action="#" th:action="@{/addRoute/{userId}(userId=${route.userId})}" th:object="${route}" method="POST">
+    <div>
+        <div>
+            <label for="date">Date:</label>
+            <input type="text" th:field="*{date}" id="date" required placeholder="dd/mm/yyyy">
+            <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label for="startPoint">Start Point:</label>
+            <input type="text" th:field="*{startPoint}" id="startPoint" required placeholder="startPoint">
+            <span th:if="${#fields.hasErrors('startPoint')}" th:errors="*{startPoint}"></span>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label for="endPoint">End Point:</label>
+            <input type="text" th:field="*{endPoint}" id="endPoint" required placeholder="endPoint">
+            <span th:if="${#fields.hasErrors('endPoint')}" th:errors="*{endPoint}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <input type="submit" value="Add route">
+        </div>
+    </div>
+</form>
 
-<p> Start point:</p>
-<p> End point:</p>
+<h2 th:text="*{message}">Error!</h2>
+
 </body>
 </html>

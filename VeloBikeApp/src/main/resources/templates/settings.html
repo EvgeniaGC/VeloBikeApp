@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Settings</title>
+</head>
+<body>
+<h2>Settings:</h2>
+<table th:object="${user}">
+    <!--
+  <table action="#" th:action="@{/settings}" th:object="${user}" method="post">
+  <th th:text="${user.email}">**</th>
+  -->
+    <tr>
+        <th>ID</th>
+        <th th:text="${user.id}"></th>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <th th:text="${user.email}"></th>
+    </tr>
+    <tr>
+        <th>Pass</th>
+        <th th:text="${user.pass}"></th>
+    </tr>
+    <tr>
+        <th>Keyword</th>
+        <th th:text="${user.keyword}"></th>
+    </tr>
+    <tr>
+        <th>Telephone number</th>
+        <th th:text="${user.telephoneNumber}"></th>
+    </tr>
+</table>
+<p><a th:href="@{/editSettings/{email}(email=${user.email})}">Edit</a></p>
+
+<h2> <a href="/backToMainPage/{userId}" method = "post">Back___!!!DON'T WORK!!!</a></h2>
+
+</body>
+</html>

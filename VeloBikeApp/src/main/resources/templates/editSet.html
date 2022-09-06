@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Edit user's settings</title>
+</head>
+<body>
+<h2>Edit your settings:</h2>
+
+<form action="#" th:object="${user}" method="post" th:action="@{/editSet/{userId}(userId=${user.id})}" >
+  <div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" th:field="*{email}" id="email" th:placeholder="${user.email}">
+      <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </div>
+    <div>
+      <label for="pass">Password</label>
+      <input type="password" th:field="*{pass}" id="pass" required>
+      <span th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></span>
+    </div>
+    <div>
+      <label for="keyword">Keyword</label>
+      <input type="text" th:field="*{keyword}" id="keyword" required th:placeholder="${user.keyword}">
+      <span th:if="${#fields.hasErrors('keyword')}" th:errors="*{keyword}"></span>
+    </div>
+    <div>
+      <label for="telephoneNumber">Telephone number</label>
+      <input type="tel" th:field="*{telephoneNumber}" id="telephoneNumber" required th:placeholder="${user.telephoneNumber}">
+      <span th:if="${#fields.hasErrors('telephoneNumber')}" th:errors="*{telephoneNumber}"></span>
+    </div>
+  </div>
+  <div>
+    <div>
+      <input type="submit" value="Save">
+    </div>
+  </div>
+</form>
+
+<h2 th:text="*{message}"></h2>
+<h2> <a href="/backToMainPage/{userId}" method = "post">Back___!!!DON'T WORK!!!</a></h2>
+<!--(userId=${user.id})-->
+</body>
+</html>

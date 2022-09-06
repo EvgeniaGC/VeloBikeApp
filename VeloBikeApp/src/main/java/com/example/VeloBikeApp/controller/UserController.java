@@ -1,9 +1,11 @@
 package com.example.VeloBikeApp.controller;
 
+import com.example.VeloBikeApp.dto.RouteBean;
+import com.example.VeloBikeApp.dto.RouteResponse;
 import com.example.VeloBikeApp.dto.UserBeanResponse;
-import com.example.VeloBikeApp.dto.UserBeanToCreate;
 import com.example.VeloBikeApp.model.Route;
 import com.example.VeloBikeApp.model.User;
+import com.example.VeloBikeApp.service.RouteService;
 import com.example.VeloBikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,14 +14,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
-    @GetMapping("/index")
+    @Autowired
+    private RouteService routeService;
+
+    @GetMapping("/")
     public String getWelcomePage(Model model) {
         return "welcome";
     }
@@ -34,7 +41,7 @@ public class UserController {
     public String signInUser(@Valid User userToCreate,
                              BindingResult result,
                              Model model) {
-        UserBeanResponse response = service.regUser(userToCreate);
+        UserBeanResponse response = userService.regUser(userToCreate);
         String message = response.getMessage();
         if (message != null) {
             model.addAttribute("message", message);
@@ -51,57 +58,36 @@ public class UserController {
     public String enterUser(@Valid User enteredUser,
                             BindingResult result,
                             Model model) {
-        UserBeanResponse response = service.logIn(enteredUser);
+        UserBeanResponse response = userService.logIn(enteredUser);
         String message = response.getMessage();
         if (message != null) {
             model.addAttribute("errorMessage", message);
             return "login";
         }
-        model.addAttribute("user", service.getUserByEmail(response.getUserToCreate().getEmail()));
+        User user = userService.getUserByEmail(response.getUserToCreate().getEmail());
+        Double allDistance = userService.findAllDistance(user);
+        Double kcal = roundDoubleBy2(45.0 * user.getWeight() / 10 * allDistance / 10);
+        Double savedFuel = roundDoubleBy2(allDistance / 100 * 7);
+        model.addAttribute("user", user);
+        model.addAttribute("allDistance", allDistance);
+        model.addAttribute("kcal", kcal);
+        model.addAttribute("savedFuel", savedFuel);
         return "mainPage";
     }
-    //TODO: if wrong `login` message open in new window
-    // ____________________________________________________
-    // @PostMapping("/login")
-    //    public String enterUser(@Valid User enteredUser,
-    //                            BindingResult result,
-//                            Model model) {
-//        UserBeanResponse response = service.logIn(enteredUser);
-//        String message = response.getMessage();
-//        if (message == null) {
-//            //    User userFromDB=
-//            model.addAttribute("name", service.getUserByEmail(response.getUserToCreate().getEmail()).getName());
-//            return "mainPage";
-//        } else {
-//            model.addAttribute("errorMessage", message);
-//            return "errorLogInPage";
-//        }
-//        }
-
-//    @GetMapping("/editAboutMe")
-//    public String editAboutUserPage(@Valid User userToEdit, Model model) {
-//        User userByEmail= service.getUserByEmail(userToEdit.getEmail());
-//        model.addAttribute("user", userByEmail);
-//        return "edit_about_user";
-//    }
-
-//    @GetMapping("/editAboutMe")
-//    public String editAboutUserPage(User user) {
-//        return "editMe";
-//    }
 
     @GetMapping("/editAboutMe/{email}")
     public String editAboutUserPage(@PathVariable String email, Model model) {
-        User user = service.getUserByEmail(email);
+        User user = userService.getUserByEmail(email);
         model.addAttribute("user", user);
         return "editMe";
     }
 
-    @PostMapping("/editMe")
-    public String enterAboutUser(@Valid User editUser,
-                                 BindingResult result,
+    @PostMapping("/editMe/{userId}")
+    public String enterAboutUser(@PathVariable(name = "userId") Integer userId,
+                                 User user,
                                  Model model) {
-        UserBeanResponse response = service.editMe(editUser);
+        user.setId(userId);
+        UserBeanResponse response = userService.editMe(user);
         String message = response.getMessage();
         if (message != null) {
             model.addAttribute("message", message);
@@ -112,72 +98,81 @@ public class UserController {
         }
     }
 
+    @GetMapping("/editSettings/{email}")
+    public String editSettingsPage(@PathVariable String email, Model model) {
+        User user = userService.getUserByEmail(email);
+        model.addAttribute("user", user);
+        return "editSet";
+    }
 
-//    UserBeanResponse response = service.logIn(enteredUser);
-//    String message = response.getMessage();
-//        if (message != null) {
-//        model.addAttribute("errorMessage", message);
-//        return "login";
-//    }
-//        model.addAttribute("user", service.getUserByEmail(response.getUserToCreate().getEmail()));
-//        return "mainPage";
+    @PostMapping("/editSet/{userId}")
+    public String edirSettings(@PathVariable(name = "userId") Integer userId,
+                               User user,
+                               Model model) {
+        user.setId(userId);
+        UserBeanResponse response = userService.editSet(user);
+        String message = response.getMessage();
+        if (message != null) {
+            model.addAttribute("message", message);
+            return "editSet";
+        } else {
+            model.addAttribute("message", "Your changes doesn't save!!! Try again.");
+            return "editSet";
+        }
+    }
 
-    @GetMapping("/addNewRoute")
-    public String addRoutePage(Route routeToAdd) {
+    @GetMapping("/addNewRoute/{email}")
+    public String addRoutePage(@PathVariable String email, Model model) {
+        User user = userService.getUserByEmail(email);
+        RouteBean route = new RouteBean();
+        route.setUserId(user.getId());
+        model.addAttribute("route", route);
+        model.addAttribute("user", user);
         return "addRoute";
     }
 
+    @PostMapping("/addRoute/{userId}")
+    public String addRoute(@PathVariable(name = "userId") Integer userId,
+                           RouteBean route,
+                           Model model) {
+
+        User user = userService.getUserById(userId);
+
+        RouteResponse response = routeService.addRoute(user, route);
+
+        String message = response.getMessage();
+        if (message != null) {
+            model.addAttribute("message", message);
+        }
+        return "addRoute";
+    }
+
+    // todo:
+//    @GetMapping("/backToMainPage/{userId}")
+//    public String goBackToMainPage(Model model,
+//                                   @PathVariable(name = "userId") Integer userId) {
+//        User userById = service.getUserById(userId);
+//        model.addAttribute("user", userById);
+//        return "redirect:/login";
+//    }
+
     @GetMapping("/deleteUser/{id}")
     public String deleteUserPage(@PathVariable Integer id, Model model) {
-        service.deleteUser(id);
+        userService.deleteUser(id);
         model.addAttribute("messageDelete", "Your account had been deleted");
         return "welcome";
     }
 
     @GetMapping("/openSettings/{email}")
     public String openSettingsPage(@PathVariable String email, Model model) {
-        User user = service.getUserByEmail(email);
+        User user = userService.getUserByEmail(email);
         model.addAttribute("user", user);
         return "settings";
     }
 
-//    @GetMapping("/openSettings/{email}")
-//    public String openSettingsPage(@PathVariable String email, Model model) {
-//        User user = service.getUserByEmail(email);
-//        model.addAttribute("user", user);
-//        return "settings";
-//    }
-
-//TODO:
-//    @GetMapping("/addNewRoute")
-//    public String addRoute(Route routeToAdd){
-//        return "add_route";
-//    }
-//    @PostMapping("/add_route")
-//    public String enterRoute(@Valid Route route,
-//                                BindingResult result,
-//                                Model model){
-//        return "addRoute";
-//    }
-
-
-//    @PostMapping("/registerUser")
-//    public UserBeanResponse registerUser(@RequestBody UserBeanToCreate user) {
-//        return service.registerUser(user);
-//    }
-
-//    @GetMapping("/getUser/{id}")
-//    public User getUserById(@PathVariable(name = "id") Integer id) {
-//        return service.getUserById(id);
-//    }
-//
-//    @DeleteMapping("/deleteUser/{id}")
-//    public void deleteUser(@PathVariable(name = "id") Integer id) {
-//        service.deleteUser(id);
-//    }
-//
-//    @PutMapping("/updateUser")
-//    public User updateUSer(@RequestBody User user) {
-//        return service.updateUser(user);
-//    }
+    double roundDoubleBy2(Double number) {
+        number *= 100;
+        Double num = Double.valueOf(Math.round(number));
+        return num / 100;
+    }
 }

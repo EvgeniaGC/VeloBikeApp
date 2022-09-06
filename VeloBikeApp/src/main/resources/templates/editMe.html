@@ -5,59 +5,52 @@
     <title>Edit information about user</title>
 </head>
 <body>
-
-<!--
-<h2>Edit personal information:</h2>
-<p> ID</p>
-<p>Email</p>
-<p>Name</p>
-<p>Telephone number</p>
-<p>Country</p>
-<p>Male</p>
-<p>Age</p>
-<p>Level of activity</p>
-<p>Weight</p>
-<p>Height</p>
-<p>IMT</p>
--->
-
 <h2>Edit personal information:</h2>
 
-<form action="#" th:action="@{/editMe}" th:object="${user}" method="post">
+<form action="#" th:object="${user}" method="post" th:action="@{/editMe/{userId}(userId=${user.id})}" >
     <div>
         <div>
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" th:placeholder="${user.email}" readonly>
+            <!--
+             It can also be written like this:
+            <input type="email" id="email2"  name="email" th:attr="placeholder=${user.email}" />
+            -->
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div>
             <label for="name">Name</label>
-            <input type="name" th:field="*{name}" id="name" placeholder="*{name}">
+            <input type="text" th:field="*{name}" id="name" th:placeholder="${user.name}">
             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
         <div>
             <label for="age">Age</label>
-                <input type="age" th:field="*{age}" id="age" placeholder="*{age}">
-                <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+            <input type="text" th:field="*{age}" id="age" th:placeholder="${user.age}">
+            <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
         </div>
         <div>
             <label for="country">Country</label>
-            <input type="country" th:field="*{country}" id="country" required placeholder="*{country}">
+            <input type="text" th:field="*{country}" id="country" required th:placeholder="${user.country}">
             <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
         </div>
         <div>
             <label for="male">Male</label>
-            <input type="male" th:field="*{male}" id="male" placeholder="*{male}">
+            <input type="text" th:field="*{male}" id="male" th:placeholder="${user.male}">
             <span th:if="${#fields.hasErrors('male')}" th:errors="*{male}"></span>
         </div>
         <div>
             <label for="levelOfActivity">Level of activity</label>
-            <input type="levelOfActivity" th:field="*{levelOfActivity}" id="levelOfActivity" placeholder="*{levelOfActivity}">
+            <input type="text" th:field="*{levelOfActivity}" id="levelOfActivity" th:placeholder="${user.levelOfActivity}" >
             <span th:if="${#fields.hasErrors('levelOfActivity')}" th:errors="*{levelOfActivity}"></span>
         </div>
         <div>
             <label for="weight">Weight</label>
-            <input type="weight" th:field="*{weight}" id="weight" placeholder="*{weight}">
+            <input type="text" th:field="*{weight}" id="weight" th:placeholder="${user.weight}">
             <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></span>
         </div>
         <div>
             <label for="height">Height</label>
-            <input type="height" th:field="*{height}" id="height" placeholder="*{height}">
+            <input type="text" th:field="*{height}" id="height" th:placeholder="${user.height}">
             <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
         </div>
     </div>
@@ -67,6 +60,9 @@
         </div>
     </div>
 </form>
-<h2 th:text="*{message}">Error!</h2>
+
+<h2 th:text="*{message}"></h2>
+<h2> <a href="/backToMainPage/{userId}" method = "post">Back</a></h2>
+<!--(userId=${user.id})-->
 </body>
 </html>

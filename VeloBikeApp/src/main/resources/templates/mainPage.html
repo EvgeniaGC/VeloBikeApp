@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
+    <link rel="stylesheet" href="../css/design.css">
 </head>
 <body>
 <h2 th:text="'Hello, ' + (${user.name}==null? 'Guest':(*{user.name}))"></h2>
 <p>_____________________________________________________________________</p>
 
 <h3><u>About me</u></h3>
-<p><a th:href="@{/editAboutMe/{email}(email=${user.email})}">Edit</a></p>
+<p class="btn"><a th:href="@{/editAboutMe/{email}(email=${user.email})}" >Edit</a></p>
 <table>
     <tr>
         <th>Name</th>
@@ -47,30 +48,60 @@
 <p>_____________________________________________________________________</p>
 
 <h3><u>My Routes</u></h3>
-<p><a href="/addNewRoute">Add new route</a></p>
+
+<div th:switch="${user.listOfRout}">
+    <h2 th:case="null">No routes yet!</h2>
+    <div th:case="*">
+        <table width="800">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start point</th>
+                <th>End point</th>
+                <th>Distance</th>
+                <th>Kcal</th>
+                <th>Saved fuel</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="route : ${user.listOfRout}">
+                <td th:text="${route.date}"></td>
+                <td th:text="${route.startPoint}"></td>
+                <td th:text="${route.endPoint}"></td>
+                <td th:text="${route.distance}"></td>
+                <td th:text="${route.kcal}"></td>
+                <td th:text="${route.savedFuel}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p><a th:href="@{/addNewRoute/{email}(email=${user.email})}">Add new route</a></p>
+
 <p>_____________________________________________________________________</p>
 
 <h3><u>Statistics</u></h3>
 <table>
     <tr>
         <th>Month</th>
-        <th>**June</th>
+        <th>**all months</th>
         <th></th>
     </tr>
     <tr>
         <th>Distance</th>
-        <th>**36</th>
-        <th>**km</th>
+        <th th:text="*{allDistance}"></th>
+        <th>km</th>
     </tr>
     <tr>
         <th>Kcal</th>
-        <th>**234</th>
-        <th>**kcal</th>
+        <th th:text="*{kcal}"></th>
+        <th>kcal</th>
     </tr>
     <tr>
         <th>Saved fuel</th>
-        <th>**2.6</th>
-        <th>**litres</th>
+        <th th:text="*{savedFuel}"></th>
+        <th>litres</th>
     </tr>
 </table>
 <p>_____________________________________________________________________</p>

@@ -16,6 +16,10 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">1800</property>
+		<property name="c3p0.max_statements">50</property>
 	</properties>
 
 	<dependencies>
@@ -69,6 +73,13 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+		<dependency>
+			<!-- jsoup HTML parser library @ https://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.15.2</version>
+		</dependency>
     </dependencies>
 
 	<build>

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Integer> {
 
+    Route findRouteByIdRoute(Integer id);
+
 }

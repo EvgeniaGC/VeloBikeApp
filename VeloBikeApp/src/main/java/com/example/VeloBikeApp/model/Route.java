@@ -1,12 +1,12 @@
 package com.example.VeloBikeApp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.util.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,23 +21,32 @@ public class Route {
     @Column(name = "id_route")
     private Integer idRoute;
 
-//    @Column(name = "data")
-//    private Data data;
+    @Column(name = "id_user")
+    private Integer userId;
+
+    @Column(name = "date")
+    private LocalDate date;
 
     @Column(name = "start")
     private String startPoint;
 
-    @Column(name = "finish")
-    private String finishPoint;
+    @Column(name = "end")
+    private String endPoint;
 
     @Column(name = "distance")
-    private double distance; // km
+    private Double distance; // km
 
     @Column(name = "hour")
-    private int timeHour;
+    private Integer timeHour;
 
     @Column(name = "minute")
-    private int timeMinute;
+    private Integer timeMinute;
+
+    @Column(name = "kcal")
+    private Double kcal;
+
+    @Column(name = "saved_fuel")
+    private Double savedFuel;
 
 //    @OneToOne
 //    @Column(name = "result")

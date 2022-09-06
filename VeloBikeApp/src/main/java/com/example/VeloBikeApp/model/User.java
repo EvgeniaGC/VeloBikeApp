@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,7 +26,7 @@ public class User {
     private String name;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(name = "email")
     private String email;
@@ -37,8 +38,8 @@ public class User {
     @Column(name = "repeatedPass")
     private String repeatedPass;
 
-    @Column(name = "keyWord")
-    private String keyWord;
+    @Column(name = "keyword")
+    private String keyword;
 
     @Column(name = "telephoneNumber")
     private String telephoneNumber;
@@ -53,15 +54,16 @@ public class User {
     private String levelOfActivity;
 
     @Column(name = "weight")
-    private int weight; // kg
+    private Integer weight; // kg
 
     @Column(name = "height")
-    private int height; // sm
+    private Integer height; // sm
 
     @Column(name = "imt")
-    private double imt; // imt = weight(kg) / (height(m)^2)
+    private Double imt; // imt = weight(kg) / (height(m)^2)
 
     @OneToMany
+ //   @JoinColumn(referencedColumnName = "id_route")
     @Column(name = "route")
     private List<Route> listOfRout;
 

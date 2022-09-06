@@ -12,7 +12,7 @@ public class UserMapper {
             createUserBean.setEmail(user.getEmail());
             createUserBean.setPass(user.getPass());
             createUserBean.setRepeatedPass(user.getRepeatedPass());
-            createUserBean.setKeyWord(user.getKeyWord());
+            createUserBean.setKeyWord(user.getKeyword());
             createUserBean.setTelephoneNumber(user.getTelephoneNumber());
             createUserBean.setCountry(user.getCountry());
         }
@@ -25,7 +25,7 @@ public class UserMapper {
             user.setEmail(userBeanToCreate.getEmail());
             user.setPass(userBeanToCreate.getPass());
             user.setRepeatedPass(userBeanToCreate.getRepeatedPass());
-            user.setKeyWord(userBeanToCreate.getKeyWord());
+            user.setKeyword(userBeanToCreate.getKeyWord());
             user.setTelephoneNumber(userBeanToCreate.getTelephoneNumber());
             user.setCountry(userBeanToCreate.getCountry());
         }
